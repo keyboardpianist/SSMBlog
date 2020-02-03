@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.deltaplus.mapper.ArticleMapper">
+    <insert id="insertArticleAbs" parameterType="com.deltaplus.beans.Article" >
+        <!--
+            keyProperty 主键存储在pojo的属性名,这个selectKey执行后，aid会存储到之前insert的article对象中
+            order 相对于insert sql语句的执行顺序
+            resultType 返回的主键是什么类型
+        -->
+        <selectKey keyProperty="aid" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into Article(title, createtime, article_abstract)
+            values(#{title}, #{createtime}, #{article_abstract})
+    </insert>
+
+    <insert id="insertArticleDetail" parameterType="com.deltaplus.beans.ArticleDetail">
+        insert into ArticleDetail(aid, detail)
+            values(#{aid}, #{detail})
+    </insert>
+
+    <!--
+    id resultMap标识
+    type javabean的类型
+    -->
+    <resultMap id="singleArticleResultMap" type="com.deltaplus.beans.Article">
+        <id column="aid" property="aid"/>
+        <result column="title" property="title"/>
+        <result column="createtime" property="createtime"/>
+        <result column="article_abstract" property="article_abstract"/>
+        <result column="updatetime" property="updatetime" />
+        <!--
+        property Article对象的articleDetail属性，对象的子对象
+        javaType 子对象对应的java类
+        -->
+        <association property="articleDetail" javaType="com.deltaplus.beans.ArticleDetail">
+            <result column="detail" property="detail" />
+        </association>
+    </resultMap>
+
+    <select id="getArticleById" parameterType="java.lang.Integer" resultMap="singleArticleResultMap">
+        select aid, title, createtime,
+                article_abstract, updatetime,detail
+        from Article natural join ArticleDetail where aid = #{aid}
+    </select>
+
+    <resultMap id="ArticleList" type="com.deltaplus.beans.Article">
+        <id column="aid" property="aid"/>
+        <result column="title" property="title"/>
+        <result column="createtime" property="createtime"/>
+        <result column="article_abstract" property="article_abstract"/>
+        <result column="updatetime" property="updatetime" />
+    </resultMap>
+
+    <select id="getArticleList" resultMap="ArticleList">
+        select aid, title, createtime,
+                article_abstract, updatetime
+        from Article
+    </select>
+</mapper>
