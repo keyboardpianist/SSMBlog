@@ -12,7 +12,9 @@
         <div class="blog-content">
           <keep-alive>
             <router-view
+              ref="routerView"
               @getDetail="showDetail"
+              @paperChangeTitle="changeTitle"
             />
           </keep-alive>
           <UploadDialog :dialogVisible="uploadDialog"
@@ -49,22 +51,22 @@
         watch:{
           $route(to, from)
           {
-            if (to.path == '/list')
+            if (to.path == '/')
             {
               this.h1Str = 'deltaplus';
               this.h2Str = 'see what you want to see';
             }
-            /*if (to.path.search(/\/detail/i) >= 0)
-            {
-
-            }*/
           }
         },
         methods:{
           showDetail(info)
           {
-            //this.h1Str = info.title;
+            this.h1Str = info.title;
             this.$router.push({path:'/detail/' + info.id});
+          },
+          changeTitle(title)
+          {
+            this.h1Str = title;
           },
           handleUpload(){
             this.uploadDialog = true;
@@ -76,6 +78,8 @@
           handleUploadSubmit()
           {
             this.uploadDialog = false;
+            this.$router.push({path:'/list'});
+            this.$refs.routeView.getPaperList();
           },
           handleUploadClose()
           {

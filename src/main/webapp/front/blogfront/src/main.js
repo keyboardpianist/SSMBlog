@@ -18,7 +18,7 @@ let router = new VueRouter({
   base: '/SSMBlog/',/*前端路由和后端一致，用于覆盖后端路由被访问的情况*/
   routes: [
     {
-      path:'/list',
+      path:'/',
       component: List
     },
     {
@@ -26,8 +26,8 @@ let router = new VueRouter({
       component: Paper
     },
     {
-      path: '/',
-      redirect: 'list'
+      path: '/*',
+      redirect: '/'
     }
   ]
 })

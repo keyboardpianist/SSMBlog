@@ -1,14 +1,15 @@
 package com.deltaplus.beans;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Article implements Serializable {
     //private static final long serialVersionUID = ;
     private int aid;
     private String title;
-    private Date createtime;
-    private Date updatetime;
+    private Timestamp createtime;
+    private Timestamp updatetime;
     private String article_abstract;
     private ArticleDetail articleDetail;
 
@@ -28,11 +29,11 @@ public class Article implements Serializable {
         return title;
     }
 
-    public Date getCreatetime() {
+    public Timestamp getCreatetime() {
         return createtime;
     }
 
-    public Date getUpdatetime() {
+    public Timestamp getUpdatetime() {
         return updatetime;
     }
 
@@ -49,11 +50,11 @@ public class Article implements Serializable {
         this.title = title;
     }
 
-    public void setCreatetime(Date createtime) {
+    public void setCreatetime(Timestamp createtime) {
         this.createtime = createtime;
     }
 
-    public void setUpdatetime(Date updatetime) {
+    public void setUpdatetime(Timestamp updatetime) {
         this.updatetime = updatetime;
     }
 

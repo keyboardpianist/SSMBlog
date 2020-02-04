@@ -21,7 +21,7 @@
         name: "List",
         data(){
           return {
-            paperData: [{id: 1, title: 'tst1', abs:
+            /*paperData: [{id: 1, title: 'tst1', abs:
                 'java学习（一）\n' +
                 '\n' +
                 '今天继续开始系统学习java，希望能坚持下去，打卡。。。\n' +
@@ -45,32 +45,38 @@
               {id: 6, title: 'tst2', abs: 'abs2', time: '2019-01-08 01:02', category: 'Java'},
               {id: 7, title: 'tst3', abs: 'abs3', time: '2019-01-08 01:02', category: 'Java'},
               {id: 8, title: 'tst4', abs: 'abs4', time: '2019-01-08 01:02', category: 'Java'},
-            ]
+            ]*/
+            paperData: [],
           }
         },
         mounted() {
-          this.transferMarkdown();
-          let _this = this;
-          /*$.ajax({
-            data: "",
-            type: "POST",
-            url: "/SSMBlog/List",
-            success(result)
-            {
-              console.log(result);
-            },
-            error()
-            {
-              _this.$message({
-                message: '博文加载失败',
-                type: 'error',
-              });
-            }
-          })*/
+          this.getPaperList();
         },
         methods:{
           getPaperList(){
-
+            let _this = this;
+            $.ajax({
+              data: "",
+              type: "POST",
+              url: "/SSMBlog/List",
+              success(list)
+              {
+                  _this.paperData = [];
+                  for (let i in list)
+                  {
+                    _this.paperData.push({id: list[i].aid, title: list[i].title,
+                      abs: list[i].article_abstract, time: new Date(list[i].createtime), category: 'Java'});
+                  }
+                  _this.transferMarkdown();
+              },
+              error()
+              {
+                _this.$message({
+                  message: '博文加载失败',
+                  type: 'error',
+                });
+              }
+            })
           },
           transferMarkdown(){
             for (let i = 0;i < this.paperData.length;i++)

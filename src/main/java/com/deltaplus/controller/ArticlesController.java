@@ -1,5 +1,6 @@
 package com.deltaplus.controller;
 
+import com.deltaplus.Utils.Code;
 import com.deltaplus.beans.Article;
 import com.deltaplus.beans.ArticleDetail;
 import com.deltaplus.service.ArticlesService;
@@ -9,31 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
-import java.io.File;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 @Controller
 public class ArticlesController {
-
-    class Code{
-        private Integer code;
-
-        public Code(Integer code) {
-            this.code = code;
-        }
-
-        public Integer getCode() {
-            return code;
-        }
-
-        public void setCode(Integer code) {
-            this.code = code;
-        }
-    }
     
     private final ArticlesService articlesService;
 
@@ -45,12 +30,12 @@ public class ArticlesController {
     }
 
     @RequestMapping(value="/Upload", method= {RequestMethod.POST})
-    public @ResponseBody Code uploadFile(@RequestParam("file[]") MultipartFile[] file)//ajax表单形式上传文件必须使用RequestParam(非json数据)
+    public @ResponseBody
+    Code uploadFile(@RequestParam("file[]") MultipartFile[] file)//ajax表单形式上传文件必须使用RequestParam(非json数据)
     {
         Code code = new Code(200);
         try {
                 //SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = new Date(System.currentTimeMillis());
                 //System.out.println(formatter.format(date));
                 //String curTime = formatter.format(date);
                 for (MultipartFile mFile : file)
@@ -76,29 +61,12 @@ public class ArticlesController {
                     articleDetail.setDetail(content.toString());
                     content.delete(0, content.length());
                     article.setArticleDetail(articleDetail);
-                    article.setCreatetime(date);
+                    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                    article.setCreatetime(timestamp);
+                    article.setUpdatetime(timestamp);
                     //System.out.println(article.getTitle());
                     articlesService.insertArticle(article);
-            }
-            /*SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-            Date date = new Date(System.currentTimeMillis());
-            System.out.println(formatter.format(date));*/
-
-            //System.out.println(fileName);
-            /*String headPath = "D://" + fileName;
-            File dest = new File(headPath);
-
-            // 获取文件的二进制数组
-            byte[] bytes = file.getBytes();
-            // 上传到数据库
-            student.setHead(bytes);
-
-            // 把数据封装到对象中
-            student.setHeadPath(headPath);
-            studentService.regist(student);
-
-            // 把文件写到磁盘
-            file.transferTo(dest);*/
+                }
         } catch (Exception e) {
             e.printStackTrace();
             code.setCode(500);
