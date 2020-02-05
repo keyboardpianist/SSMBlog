@@ -1,11 +1,10 @@
-package com.deltaplus.Utils;
+package com.deltaplus.utils;
 
+import org.springframework.stereotype.Component;
+
+@Component("Code")
 public class Code {
     private Integer code;
-
-    public Code(Integer code) {
-        this.code = code;
-    }
 
     public Integer getCode() {
         return code;

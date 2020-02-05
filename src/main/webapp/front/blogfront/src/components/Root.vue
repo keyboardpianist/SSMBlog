@@ -98,6 +98,20 @@
     background-color: #f0f2f5;
   }
 
+   code{
+     color: #c7254e;
+     border-radius: 2px;
+   }
+
+  pre {
+    background-color: #2d2d2d!important;
+    color: #ccc!important;
+  }
+
+  .blog-content > pre > code{
+    background-color: #2d2d2d!important;
+    color: #ccc!important;
+  }
 </style>
 
 <style scoped>

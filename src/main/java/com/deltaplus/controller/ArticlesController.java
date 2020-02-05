@@ -1,6 +1,6 @@
 package com.deltaplus.controller;
 
-import com.deltaplus.Utils.Code;
+import com.deltaplus.utils.Code;
 import com.deltaplus.beans.Article;
 import com.deltaplus.beans.ArticleDetail;
 import com.deltaplus.service.ArticlesService;
@@ -21,19 +21,20 @@ import java.util.List;
 public class ArticlesController {
     
     private final ArticlesService articlesService;
+    private final Code code;
 
     @Autowired
-    public ArticlesController(ArticlesService articlesService)
+    public ArticlesController(ArticlesService articlesService, Code code)
     {
         System.out.println("ArticlesController init");
         this.articlesService = articlesService;
+        this.code = code;
     }
 
     @RequestMapping(value="/Upload", method= {RequestMethod.POST})
-    public @ResponseBody
-    Code uploadFile(@RequestParam("file[]") MultipartFile[] file)//ajax表单形式上传文件必须使用RequestParam(非json数据)
+    public @ResponseBody Code uploadFile(@RequestParam("file[]") MultipartFile[] file)//ajax表单形式上传文件必须使用RequestParam(非json数据)
     {
-        Code code = new Code(200);
+        code.setCode(200);
         try {
                 //SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 //System.out.println(formatter.format(date));

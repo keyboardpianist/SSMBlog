@@ -8,7 +8,7 @@
           {{item.abs}}
         </div>
         <div class="paper-tail">
-          posted @ {{item.time}} <a href="/">deltaplus</a> category: <a href="javascipt:void(0)">{{item.category}}</a>
+          posted @ {{item.time}} <a href="/">deltaplus</a>
         </div>
       </el-card>
     </div>
@@ -65,7 +65,7 @@
                   for (let i in list)
                   {
                     _this.paperData.push({id: list[i].aid, title: list[i].title,
-                      abs: list[i].article_abstract, time: new Date(list[i].createtime), category: 'Java'});
+                      abs: list[i].article_abstract, time: new Date(list[i].createtime)});
                   }
                   _this.transferMarkdown();
               },
